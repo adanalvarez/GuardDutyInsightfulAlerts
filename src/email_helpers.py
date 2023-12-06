@@ -4,10 +4,7 @@ import logging
 import os
 
 
-def generate_email_html(
-        style,
-        sections,
-        guardduty_url):
+def generate_email_html(style, sections, guardduty_url):
     """Generates an HTML email template with GuardDuty information, IP information, and CloudTrail information."""
     combined_sections = "".join(sections)
     return f"""
@@ -30,30 +27,26 @@ def generate_email_html(
     """
 
 
-def send_email(
-        html_content,
-        severity,
-        finding_title,
-        source_email,
-        destination_email):
-    """Sends an email using AWS SES. """
-    ses_client = boto3.client('ses')
+def send_email(html_content, severity, finding_title, source_email, destination_email):
+    """Sends an email using AWS SES."""
+    ses_client = boto3.client("ses")
 
     if not source_email or not destination_email:
         logging.error(
-            "Source and destination emails are required. Please set them as environment variables.")
+            "Source and destination emails are required. Please set them as environment variables."
+        )
         return
 
-    subject = f'[AWS GuardDuty Alert][Severity: {severity}] {finding_title}'
+    subject = f"[AWS GuardDuty Alert][Severity: {severity}] {finding_title}"
 
     try:
         response = ses_client.send_email(
             Source=source_email,
-            Destination={'ToAddresses': [destination_email]},
+            Destination={"ToAddresses": [destination_email]},
             Message={
-                'Subject': {'Data': subject},
-                'Body': {'Html': {'Data': html_content}}
-            }
+                "Subject": {"Data": subject},
+                "Body": {"Html": {"Data": html_content}},
+            },
         )
         logging.info(f"Email sent successfully: {response['MessageId']}")
     except ClientError as e:

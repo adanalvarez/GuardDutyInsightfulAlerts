@@ -5,48 +5,57 @@ import logging
 
 def get_ip_information_section(event, api_key):
     """Retrieves IP information based on various paths from the event and formats it."""
-    paths = [['detail',
-              'service',
-              'action',
-              'awsApiCallAction',
-              'remoteIpDetails',
-              'ipAddressV4'],
-             ['detail',
-              'service',
-              'action',
-              'kubernetesApiCallAction',
-              'remoteIpDetails',
-              'ipAddressV4'],
-             ['detail',
-              'service',
-              'action',
-              'networkConnectionAction',
-              'remoteIpDetails',
-              'ipAddressV4'],
-             ['detail',
-              'service',
-              'action',
-              'rdsLoginAttemptAction',
-              'remoteIpDetails',
-              'ipAddressV4']]
+    paths = [
+        [
+            "detail",
+            "service",
+            "action",
+            "awsApiCallAction",
+            "remoteIpDetails",
+            "ipAddressV4",
+        ],
+        [
+            "detail",
+            "service",
+            "action",
+            "kubernetesApiCallAction",
+            "remoteIpDetails",
+            "ipAddressV4",
+        ],
+        [
+            "detail",
+            "service",
+            "action",
+            "networkConnectionAction",
+            "remoteIpDetails",
+            "ipAddressV4",
+        ],
+        [
+            "detail",
+            "service",
+            "action",
+            "rdsLoginAttemptAction",
+            "remoteIpDetails",
+            "ipAddressV4",
+        ],
+    ]
 
     ip_address_v4 = next(
-        (get_nested_value(
-            event,
-            path) for path in paths if get_nested_value(
-            event,
-            path)),
-        None)
+        (
+            get_nested_value(event, path)
+            for path in paths
+            if get_nested_value(event, path)
+        ),
+        None,
+    )
     logging.info(f"External IP: {ip_address_v4}")
     if api_key and ip_address_v4:
         ip_info = get_ip_information(ip_address_v4, api_key)
         return (
-            format_ip_information(
-                ip_address_v4,
-                ip_info),
-            ip_address_v4) if ip_info else (
-            "",
-            None)
+            (format_ip_information(ip_address_v4, ip_info), ip_address_v4)
+            if ip_info
+            else ("", None)
+        )
 
     return "", None
 
@@ -64,7 +73,8 @@ def format_ip_information(ip, data):
             """
     else:
         security_indicators = ", ".join(
-            [key.upper() for key, value in data['security'].items() if value])
+            [key.upper() for key, value in data["security"].items() if value]
+        )
         maps_url = f"https://www.google.com/maps/search/{data['location']['latitude']},{data['location']['longitude']}"
         virustotal_url = f"https://www.virustotal.com/gui/ip-address/{ip}"
         greynoise_url = f"https://viz.greynoise.io/ip/{ip}"

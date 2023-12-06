@@ -1,10 +1,15 @@
 # styles.py
 # This module contains functions related to styles generation
 
+
 def generate_style(event):
-    """ Generates CSS styles for the HTML email. """
-    background_color = 'red' if event['detail']['severity'] > 6 else ('orange' if event['detail']['severity'] > 3 else 'green')
-    style = f'''<style>
+    """Generates CSS styles for the HTML email."""
+    background_color = (
+        "red"
+        if event["detail"]["severity"] > 6
+        else ("orange" if event["detail"]["severity"] > 3 else "green")
+    )
+    style = f"""<style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
     body {{
@@ -110,5 +115,5 @@ def generate_style(event):
         }}
     }}
 </style>
-    '''
+    """
     return style
