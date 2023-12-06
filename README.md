@@ -1,5 +1,5 @@
 # GuardDutyInsightfulAlerts
-
+<img src="https://github.com/adanalvarez/GuardDutyInsightfulAlerts/blob/main/GuardDutyInsightfulAlertsLogo.png?raw=true" width="500" height="500">
 ## Overview
 GuardDutyInsightfulAlerts is an AWS Lambda-based solution that enhances the alerting capabilities of AWS GuardDuty. It processes GuardDuty findings, enriches them with additional contextual information, and delivers well-structured email notifications, enabling users to make informed decisions upon receiving GuardDuty alerts.
 
