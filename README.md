@@ -3,6 +3,7 @@
 ## Overview
 GuardDutyInsightfulAlerts is an AWS Lambda-based solution that enhances the alerting capabilities of AWS GuardDuty. It processes GuardDuty findings, enriches them with additional contextual information, and delivers well-structured email notifications, enabling users to make informed decisions upon receiving GuardDuty alerts.
 
+![image](mail_example.png)
 ## Motivation
 While AWS provides [SNS-based notifications](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html) for GuardDuty findings, these notifications often lack detail and context. GuardDutyInsightfulAlerts addresses this by offering richer, more informative alerts. Although it requires domain ownership for Amazon SES, which is an extra step compared to SNS, domains are inexpensive and easy to configure. This project also allows for customization and extension, such as adding more detailed information from GuardDuty events, executing additional queries, or integrating more data sources.
 
